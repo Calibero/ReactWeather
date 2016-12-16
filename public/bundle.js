@@ -25582,7 +25582,7 @@
 
 	    function renderError() {
 	      if (typeof errorMessage === 'string') {
-	        return React.createElement(ErrorModal, null);
+	        return React.createElement(ErrorModal, { message: errorMessage });
 	      }
 	    }
 
@@ -25678,6 +25678,15 @@
 	var ErrorModal = React.createClass({
 	  displayName: 'ErrorModal',
 
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      title: 'Error'
+	    };
+	  },
+	  propTypes: {
+	    title: React.PropTypes.string,
+	    message: React.PropTypes.string.isRequired
+	  },
 	  getInitialState: function getInitialState() {
 	    return {
 	      showModal: false
@@ -25693,6 +25702,10 @@
 	    this.open();
 	  },
 	  render: function render() {
+	    var _props = this.props,
+	        title = _props.title,
+	        message = _props.message;
+
 	    return React.createElement(
 	      'div',
 	      null,
@@ -25705,7 +25718,7 @@
 	          React.createElement(
 	            Modal.Title,
 	            null,
-	            'City not found!'
+	            title
 	          )
 	        ),
 	        React.createElement(
@@ -25714,7 +25727,7 @@
 	          React.createElement(
 	            'p',
 	            null,
-	            'Some text'
+	            message
 	          ),
 	          React.createElement(
 	            'button',
@@ -25753,7 +25766,7 @@
 	        return res.data.main.temp;
 	      }
 	    }, function (res) {
-	      throw new Error(res.data.message);
+	      throw new Error('Unable to fetch weather for that location.');
 	    });
 	  }
 	};

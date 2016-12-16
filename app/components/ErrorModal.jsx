@@ -3,6 +3,15 @@ var { Modal } = require('react-bootstrap');
 
 
 var ErrorModal = React.createClass({
+  getDefaultProps: function () {
+    return {
+      title: 'Error'
+    }
+  },
+  propTypes: {
+    title: React.PropTypes.string,
+    message: React.PropTypes.string.isRequired
+  },
   getInitialState: function () {
     return {
       showModal: false
@@ -18,14 +27,15 @@ var ErrorModal = React.createClass({
     this.open();
   },
   render: function () {
+    var {title, message} = this.props;
     return (
       <div>
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
-            <Modal.Title>City not found!</Modal.Title>
+            <Modal.Title>{title}</Modal.Title>
           </Modal.Header>
            <Modal.Body>
-              <p>Some text</p>
+              <p>{message}</p>
               <button onClick={this.close}>
                 OK
               </button>
